@@ -15,5 +15,4 @@ public interface BooksApi {
 
     @GET("books/v1/volumes")
     Call<Book> getBookDetails(@Query("q") String Query, @Query("inauthor") String author);
-//                             @Query("key") String booksApiKey);
 }

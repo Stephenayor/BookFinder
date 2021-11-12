@@ -17,7 +17,6 @@ public class BookFinderRetrofitClientInstance {
     private String URL = "https://www.googleapis.com/" +
             "books/v1/volumes?q=search+terms:keyes&key=AIzaSyAq0jnQo2nh6DYPbNnWDx7NuRzPUpPjS-8";
 
-
     public static Retrofit getRetrofitInstance(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

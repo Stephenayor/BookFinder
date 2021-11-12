@@ -3,6 +3,7 @@ package com.example.bookfinder;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,12 +24,10 @@ public class BookListFragment extends Fragment {
     private EditText editText;
     private Button searchButton;
     private String searchTitle;
-    
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
     }
 
     @Override
@@ -41,21 +40,27 @@ public class BookListFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String searchTitle = editText.getText().toString();
-                String searchAuthor = editText.getText().toString();
-        BooksApi booksApiService = BookFinderRetrofitClientInstance.getRetrofitInstance().create(BooksApi.class);
-        Call<Book> call = booksApiService.getBookDetails(searchTitle,
-                searchAuthor);
-        call.enqueue(new Callback<Book>() {
-            @Override
-            public void onResponse(Call<Book> call, Response<Book> response) {
-                Toast.makeText(getContext(), "BOOKS ARRIVING", Toast.LENGTH_SHORT).show();
-            }
+//        BooksApi booksApiService = BookFinderRetrofitClientInstance.getRetrofitInstance().create(BooksApi.class);
+//        Call<Book> call = booksApiService.getBookDetails(searchTitle,
+//                searchAuthor);
+//        call.enqueue(new Callback<Book>() {
+//            @Override
+//            public void onResponse(Call<Book> call, Response<Book> response) {
+//                Toast.makeText(getContext(), "BOOKS ARRIVING", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Book> call, Throwable t) {
+//
+//            }});
 
-            @Override
-            public void onFailure(Call<Book> call, Throwable t) {
+                BookListViewModel bookListViewModel = new BookListViewModel();
+                bookListViewModel.getBookList(editText).observe(getViewLifecycleOwner(), new Observer<Book>() {
+                    @Override
+                    public void onChanged(Book book) {
 
-            }});
+                    }
+                });
         }});
         return view;
     }
