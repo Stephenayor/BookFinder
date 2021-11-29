@@ -1,24 +1,22 @@
 package com.example.bookfinder;
 
-import android.widget.EditText;
+import com.example.bookfinder.Model.BookExample;
+import com.example.bookfinder.Model.BookItem;
 
-import com.example.bookfinder.Model.Book;
+import java.util.List;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class BookListViewModel extends ViewModel {
     private BookListRepository bookListRepository;
-    private MutableLiveData<Book> mutableLiveData;
+    private MutableLiveData<BookExample> mutableLiveData = new MutableLiveData<>();
 
     public BookListViewModel(){
         bookListRepository = new BookListRepository();
     }
-    public LiveData<Book> getBookList(EditText editText) {
-        if(mutableLiveData==null){
-            mutableLiveData = bookListRepository.requestBooks(editText);
-        }
+    public MutableLiveData<BookExample> getBookList(String searchTitle, String searchAuthor) {
+            bookListRepository.requestBooks(searchTitle, searchAuthor, mutableLiveData);
         return mutableLiveData;
     }
 }

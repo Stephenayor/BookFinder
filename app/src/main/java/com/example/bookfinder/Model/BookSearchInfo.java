@@ -6,17 +6,14 @@ import com.google.gson.annotations.SerializedName;
 
 public class BookSearchInfo implements Parcelable
 {
-
     @SerializedName("textSnippet")
     @Expose
     private String textSnippet;
     public final static Creator<BookSearchInfo> CREATOR = new Creator<BookSearchInfo>() {
 
-
         public BookSearchInfo createFromParcel(android.os.Parcel in) {
             return new BookSearchInfo(in);
         }
-
         public BookSearchInfo[] newArray(int size) {
             return (new BookSearchInfo[size]);
         }
@@ -28,6 +25,11 @@ public class BookSearchInfo implements Parcelable
     }
 
     public BookSearchInfo() {
+    }
+
+    public BookSearchInfo(String textSnippet) {
+        super();
+        this.textSnippet = textSnippet;
     }
 
     public String getTextSnippet() {

@@ -6,8 +6,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bookfinder.Model.Book;
+import com.example.bookfinder.Model.BookExample;
+import com.example.bookfinder.Model.BookItem;
 import com.example.bookfinder.Network.BookFinderRetrofitClientInstance;
 import com.example.bookfinder.Network.BooksApi;
+
+import java.util.List;
 
 import androidx.lifecycle.MutableLiveData;
 import retrofit2.Call;
@@ -16,22 +20,20 @@ import retrofit2.Response;
 
 public class BookListRepository {
 
-    public MutableLiveData<Book> requestBooks(EditText editText){
-        String searchTitle = editText.getText().toString();
-        String searchAuthor = editText.getText().toString();
-        final MutableLiveData<Book> mutableLiveData = new MutableLiveData<>();
+    public void requestBooks(String searchTitle, String searchAuthor, MutableLiveData<BookExample> mutableLiveData) {
         BooksApi booksApiService = BookFinderRetrofitClientInstance.getRetrofitInstance().create(BooksApi.class);
-        Call<Book> call = booksApiService.getBookDetails(searchTitle, searchAuthor);
-        call.enqueue(new Callback<Book>() {
+        Call<BookExample> call = booksApiService.getBookDetails(searchTitle, searchTitle, searchAuthor);
+        call.enqueue(new Callback<BookExample>() {
             @Override
-            public void onResponse(Call<Book> call, Response<Book> response) {
-                mutableLiveData.setValue(response.body());
+            public void onResponse(Call<BookExample> call, Response<BookExample> response) {
                 Log.d("BookList", "Books Arriving");
+                mutableLiveData.setValue(response.body());
             }
+
             @Override
-            public void onFailure(Call<Book> call, Throwable t) {
+            public void onFailure(Call<BookExample> call, Throwable t) {
                 t.getMessage();
-            }});
-        return mutableLiveData;
+            }
+        });
     }
 }

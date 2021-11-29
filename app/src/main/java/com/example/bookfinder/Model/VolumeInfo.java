@@ -1,14 +1,13 @@
 package com.example.bookfinder.Model;
 
 import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Book implements Parcelable {
+public class VolumeInfo implements Parcelable {
     @SerializedName("title")
     @Expose
     private String title;
@@ -17,7 +16,7 @@ public class Book implements Parcelable {
     private String subtitle;
     @SerializedName("authors")
     @Expose
-    private List<String> authors = new ArrayList<>();
+    private List<String> authors = null;
     @SerializedName("publisher")
     @Expose
     private String publisher;
@@ -29,7 +28,7 @@ public class Book implements Parcelable {
     private String description;
     @SerializedName("industryIdentifiers")
     @Expose
-    private List<BookIndustryIdentifier> industryIdentifiers = new ArrayList<>();
+    private List<BookIndustryIdentifier> industryIdentifiers = null;
     @SerializedName("readingModes")
     @Expose
     private ReadingModes readingModes;
@@ -41,7 +40,7 @@ public class Book implements Parcelable {
     private String printType;
     @SerializedName("categories")
     @Expose
-    private List<String> categories = new ArrayList<>();
+    private List<String> categories = null;
     @SerializedName("averageRating")
     @Expose
     private Integer averageRating;
@@ -75,26 +74,27 @@ public class Book implements Parcelable {
     @SerializedName("canonicalVolumeLink")
     @Expose
     private String canonicalVolumeLink;
-    public final static Creator<Book> CREATOR = new Creator<Book>() {
+    public final static Creator<VolumeInfo> CREATOR = new Creator<VolumeInfo>() {
 
-        public Book createFromParcel(android.os.Parcel in) {
-            return new Book(in);
+
+        public VolumeInfo createFromParcel(android.os.Parcel in) {
+            return new VolumeInfo(in);
         }
 
-        public Book[] newArray(int size) {
-            return (new Book[size]);
+        public VolumeInfo[] newArray(int size) {
+            return (new VolumeInfo[size]);
         }
 
     };
 
-    protected Book(android.os.Parcel in) {
+    protected VolumeInfo(android.os.Parcel in) {
         this.title = ((String) in.readValue((String.class.getClassLoader())));
         this.subtitle = ((String) in.readValue((String.class.getClassLoader())));
         in.readList(this.authors, (java.lang.String.class.getClassLoader()));
         this.publisher = ((String) in.readValue((String.class.getClassLoader())));
         this.publishedDate = ((String) in.readValue((String.class.getClassLoader())));
         this.description = ((String) in.readValue((String.class.getClassLoader())));
-        in.readList(this.industryIdentifiers, (com.example.bookfinder.Model.Book.class.getClassLoader()));
+        in.readList(this.industryIdentifiers, (com.example.bookfinder.Model.BookIndustryIdentifier.class.getClassLoader()));
         this.readingModes = ((ReadingModes) in.readValue((ReadingModes.class.getClassLoader())));
         this.pageCount = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.printType = ((String) in.readValue((String.class.getClassLoader())));
@@ -112,16 +112,11 @@ public class Book implements Parcelable {
         this.canonicalVolumeLink = ((String) in.readValue((String.class.getClassLoader())));
     }
 
-    public Book() {
-    }
-
-    public Book(String title, String subtitle, List<String> authors, String publisher, String publishedDate,
-                String description, List<BookIndustryIdentifier> industryIdentifiers, ReadingModes readingModes,
-                Integer pageCount, String printType, List<String> categories, Integer averageRating,
-                Integer ratingsCount, String maturityRating, Boolean allowAnonLogging, String contentVersion,
-                PanelizationSummary panelizationSummary, BookImageLinks imageLinks, String language, String previewLink,
-                String infoLink,
-                String canonicalVolumeLink) {
+    public VolumeInfo(String title, String subtitle, List<String> authors, String publisher, String publishedDate,
+                      String description, List<BookIndustryIdentifier> industryIdentifiers, ReadingModes readingModes,
+                      Integer pageCount, String printType, List<String> categories, Integer averageRating, Integer ratingsCount,
+                      String maturityRating, Boolean allowAnonLogging, String contentVersion, PanelizationSummary panelizationSummary,
+                      BookImageLinks imageLinks, String language, String previewLink, String infoLink, String canonicalVolumeLink) {
         super();
         this.title = title;
         this.subtitle = subtitle;
@@ -347,8 +342,10 @@ public class Book implements Parcelable {
         dest.writeValue(infoLink);
         dest.writeValue(canonicalVolumeLink);
     }
+
     public int describeContents() {
         return 0;
     }
+
 }
 

@@ -31,15 +31,12 @@ public class BookFinderRetrofitClientInstance {
             public Response intercept(Chain chain) throws IOException {
                 Request original = chain.request();
                 HttpUrl originalHttpUrl = original.url();
-
                 HttpUrl url = originalHttpUrl.newBuilder()
                         .addQueryParameter("api_key", "AIzaSyAq0jnQo2nh6DYPbNnWDx7NuRzPUpPjS-8")
                         .build();
-
                 // Request customization: add request headers
                 Request.Builder requestBuilder = original.newBuilder()
                         .url(url);
-
                 Request request = requestBuilder.build();
                 return chain.proceed(request);
             }

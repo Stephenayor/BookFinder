@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.bookfinder.Model.Book;
+import com.example.bookfinder.Model.BookItem;
 
 import java.util.List;
 
@@ -17,15 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookViewHolder> {
-    private Book books;
     private LayoutInflater layoutInflater;
     private Context context;
-    private List<Book> bookList;
+    private List<BookItem> bookItemList;
 
-    public BookListAdapter(Book books, Context context) {
-        this.books = books;
+    public BookListAdapter(List<BookItem> bookItemList, Context context) {
         this.layoutInflater = LayoutInflater.from(context);
         this.context = context;
+        this.bookItemList = bookItemList;
     }
 
     @NonNull
@@ -37,18 +37,32 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-        if (books != null){
-            Glide.with(context).
-                    load(books.getImageLinks()).
+        if (bookItemList != null){
+            loadBookImages(holder, position);
+            holder.titleTextView.setText(bookItemList.get(position).getVolumeInfo().getTitle());
+            List<String> authors = bookItemList.get(position).getVolumeInfo().getAuthors();
+            holder.authorTextView.setText(String.valueOf(authors));
+        }
+    }
+
+    private void loadBookImages(@NonNull BookViewHolder holder, int position) {
+        if (bookItemList.get(position).getVolumeInfo().getImageLinks() != null){
+        Glide.with(context).
+                load(bookItemList.get(position).getVolumeInfo().
+                getImageLinks().getSmallThumbnail()).
+                into(holder.bookImageView);}
+        else {
+            Glide.with(context).load(R.drawable.emptybookview).
                     into(holder.bookImageView);
-            holder.titleTextView.setText(books.getTitle());
-            Log.d("Book title", "Title");
         }
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        if (bookItemList==null){
+            return 0;
+        }
+        return bookItemList.size();
     }
 
     public class BookViewHolder extends RecyclerView.ViewHolder{

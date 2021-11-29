@@ -4,9 +4,21 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BookAccess implements Parcelable
 {
+    public List<BookItem> getBookItem() {
+        return bookItem;
+    }
 
+    public void setBookItem(List<BookItem> bookItem) {
+        this.bookItem = bookItem;
+    }
+    @SerializedName("bookItem")
+    @Expose
+    private List<BookItem> bookItem = new ArrayList<BookItem>();
     @SerializedName("country")
     @Expose
     private String country;
@@ -40,6 +52,9 @@ public class BookAccess implements Parcelable
     public final static Creator<BookAccess> CREATOR = new Creator<BookAccess>() {
 
 
+        @SuppressWarnings({
+                "unchecked"
+        })
         public BookAccess createFromParcel(android.os.Parcel in) {
             return new BookAccess(in);
         }
@@ -48,7 +63,8 @@ public class BookAccess implements Parcelable
             return (new BookAccess[size]);
         }
 
-    };
+    }
+            ;
 
     protected BookAccess(android.os.Parcel in) {
         this.country = ((String) in.readValue((String.class.getClassLoader())));
@@ -63,7 +79,39 @@ public class BookAccess implements Parcelable
         this.quoteSharingAllowed = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
     }
 
+    /**
+     * No args constructor for use in serialization
+     *
+     */
     public BookAccess() {
+    }
+
+    /**
+     *
+     * @param accessViewStatus
+     * @param country
+     * @param viewability
+     * @param pdf
+     * @param webReaderLink
+     * @param epub
+     * @param publicDomain
+     * @param quoteSharingAllowed
+     * @param embeddable
+     * @param textToSpeechPermission
+     */
+    public BookAccess(String country, String viewability, Boolean embeddable, Boolean publicDomain, String textToSpeechPermission,
+                      BookPub epub, BookPdf pdf, String webReaderLink, String accessViewStatus, Boolean quoteSharingAllowed) {
+        super();
+        this.country = country;
+        this.viewability = viewability;
+        this.embeddable = embeddable;
+        this.publicDomain = publicDomain;
+        this.textToSpeechPermission = textToSpeechPermission;
+        this.epub = epub;
+        this.pdf = pdf;
+        this.webReaderLink = webReaderLink;
+        this.accessViewStatus = accessViewStatus;
+        this.quoteSharingAllowed = quoteSharingAllowed;
     }
 
     public String getCountry() {
@@ -105,6 +153,7 @@ public class BookAccess implements Parcelable
     public void setTextToSpeechPermission(String textToSpeechPermission) {
         this.textToSpeechPermission = textToSpeechPermission;
     }
+
     public BookPub getEpub() {
         return epub;
     }

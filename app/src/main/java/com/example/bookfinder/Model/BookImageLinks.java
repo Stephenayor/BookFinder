@@ -34,6 +34,12 @@ public class BookImageLinks implements Parcelable
     public BookImageLinks() {
     }
 
+    public BookImageLinks(String smallThumbnail, String thumbnail) {
+        super();
+        this.smallThumbnail = smallThumbnail;
+        this.thumbnail = thumbnail;
+    }
+
     public String getSmallThumbnail() {
         return smallThumbnail;
     }

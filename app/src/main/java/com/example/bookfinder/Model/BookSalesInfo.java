@@ -20,6 +20,9 @@ public class BookSalesInfo implements Parcelable
     public final static Creator<BookSalesInfo> CREATOR = new Creator<BookSalesInfo>() {
 
 
+        @SuppressWarnings({
+                "unchecked"
+        })
         public BookSalesInfo createFromParcel(android.os.Parcel in) {
             return new BookSalesInfo(in);
         }
@@ -37,6 +40,13 @@ public class BookSalesInfo implements Parcelable
     }
 
     public BookSalesInfo() {
+    }
+
+    public BookSalesInfo(String country, String saleability, Boolean isEbook) {
+        super();
+        this.country = country;
+        this.saleability = saleability;
+        this.isEbook = isEbook;
     }
 
     public String getCountry() {
