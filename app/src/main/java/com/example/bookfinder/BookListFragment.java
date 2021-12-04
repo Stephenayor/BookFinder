@@ -33,7 +33,7 @@ import com.example.bookfinder.Network.BooksApi;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookListFragment extends Fragment {
+public class BookListFragment extends Fragment implements BookListAdapter.ItemClickListener {
     private EditText editText;
     private Button searchButton;
     private BookListAdapter bookListAdapter;
@@ -64,11 +64,13 @@ public class BookListFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 searchTitle = editText.getText().toString();
                 searchAuthor = editText.getText().toString();
                 bookListViewModel.getBookList(searchTitle, searchAuthor).observe(getViewLifecycleOwner(), new Observer<BookExample>() {
                     @Override
                     public void onChanged(BookExample book) {
+                        progressBar.setVisibility(View.INVISIBLE);
                         displayBookList(book.getBookItem());
                     }
                 });
@@ -78,7 +80,7 @@ public class BookListFragment extends Fragment {
     }
 
     private void displayBookList(List<BookItem> bookItem) {
-        bookListAdapter = new BookListAdapter(bookItem, getContext());
+        bookListAdapter = new BookListAdapter(bookItem, getContext(),this);
         bookListAdapter.notifyDataSetChanged();
         recyclerView.setHasFixedSize(true);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
@@ -87,25 +89,16 @@ public class BookListFragment extends Fragment {
         recyclerView.setAdapter(bookListAdapter);
     }
 
-    private void setupView() {
-        bookItemList = new ArrayList<>();
-        bookListAdapter = new BookListAdapter(bookItemList, getContext());
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(bookListAdapter);
-        BooksApi booksApiService = BookFinderRetrofitClientInstance.getRetrofitInstance().create(BooksApi.class);
-        Call<BookExample> call = booksApiService.getBookDetails("Eagles Path", "Eagles Path", "David Oyedepo");
-        call.enqueue(new Callback<BookExample>() {
-            @Override
-            public void onResponse(Call<BookExample> call, Response<BookExample> response) {
-                Toast.makeText(getContext(), "BOOKS AVAILABLE", Toast.LENGTH_SHORT).show();
-                textView.setText(response.body().getBookItem().get(0).getVolumeInfo().getTitle());
-            }
-
-            @Override
-            public void onFailure(Call<BookExample> call, Throwable t) {
-                t.getMessage();
-            }
-        });
+    @Override
+    public void onBookItemClick(BookItem bookItem) {
+        Fragment bookDetailsFragment = new BookDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("books", bookItem);
+        bookDetailsFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction().remove(new BookListFragment())
+                .replace(R.id.fragment_container_view, bookDetailsFragment)
+                .setReorderingAllowed(true)
+                .addToBackStack(null)
+                .commit();
     }
 }

@@ -33,14 +33,14 @@
         app:layout_constraintTop_toBottomOf="@id/editText">
     </androidx.recyclerview.widget.RecyclerView>
 
-<!--    <ImageView-->
-<!--        android:id="@+id/bookimage_background"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:src="@drawable/bookimage"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/book_list_recyclerView"/>-->
+    <ImageView
+        android:id="@+id/bookImage_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/bookimage"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintTop_toBottomOf="@id/book_list_recyclerView"/>
 
     <ProgressBar
         android:id="@+id/loading_progress_bar"
@@ -52,7 +52,7 @@
         app:layout_constraintWidth="wrap_content"
         app:layout_constraintStart_toEndOf="parent"
         style="@style/Widget.AppCompat.ProgressBar"
-        android:visibility="gone" />
+         />
 
     <TextView
         android:layout_width="match_parent"

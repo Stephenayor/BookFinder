@@ -1,7 +1,6 @@
 package com.example.bookfinder;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.bookfinder.Model.Book;
 import com.example.bookfinder.Model.BookItem;
 
 import java.util.List;
@@ -21,11 +19,13 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     private LayoutInflater layoutInflater;
     private Context context;
     private List<BookItem> bookItemList;
+    private ItemClickListener bookItemClickListener;
 
-    public BookListAdapter(List<BookItem> bookItemList, Context context) {
+    public BookListAdapter(List<BookItem> bookItemList, Context context, ItemClickListener bookItem) {
         this.layoutInflater = LayoutInflater.from(context);
         this.context = context;
         this.bookItemList = bookItemList;
+        this.bookItemClickListener = bookItem;
     }
 
     @NonNull
@@ -42,6 +42,12 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             holder.titleTextView.setText(bookItemList.get(position).getVolumeInfo().getTitle());
             List<String> authors = bookItemList.get(position).getVolumeInfo().getAuthors();
             holder.authorTextView.setText(String.valueOf(authors));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bookItemClickListener.onBookItemClick(bookItemList.get(position));
+                }
+            });
         }
     }
 
@@ -76,5 +82,8 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             authorTextView = itemView.findViewById(R.id.book_author_view);
             bookImageView = itemView.findViewById(R.id.book_imageView);
         }
+    }
+    public interface ItemClickListener{
+        void onBookItemClick(BookItem bookItem);
     }
 }
