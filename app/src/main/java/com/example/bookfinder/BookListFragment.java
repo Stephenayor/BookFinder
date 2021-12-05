@@ -57,7 +57,6 @@ public class BookListFragment extends Fragment implements BookListAdapter.ItemCl
         searchButton = view.findViewById(R.id.search_button);
         editText = view.findViewById(R.id.editText);
         recyclerView = view.findViewById(R.id.book_list_recyclerView);
-        textView = view.findViewById(R.id.text_view);
         progressBar = view.findViewById(R.id.loading_progress_bar);
 
         bookListViewModel = new ViewModelProvider(this).get(BookListViewModel.class);
