@@ -13,3 +13,8 @@ It is a simple BookFinder application that tries to get the book associated data
 
 
 📸 Screenshots
+
+List of Books              |         Book Details Fragment          
+:-------------------------:|:-------------------------:| 
+![book_finder](https://user-images.githubusercontent.com/40307603/151281211-251fa0b4-68c3-4a21-894a-2581d58e8d37.png) | ![book details fragment](https://user-images.githubusercontent.com/40307603/151281366-0dd604b5-45e1-44de-bb9c-c09406cfc444.png)
+
